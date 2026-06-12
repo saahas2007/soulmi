@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Member Dashboard | SoulMi</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Dashboard Layout */
+        .dash-layout {
+            padding: 140px 0 80px;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 40px;
+        }
+        
+        /* Sidebar Navigation */
+        .dash-sidebar {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+        
+        .dash-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .dash-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-head);
+            font-weight: 600;
+            color: var(--charcoal-light);
+            background: transparent;
+            border: none;
+            text-align: left;
+            transition: var(--transition);
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .dash-menu-item:hover,
+        .dash-menu-item.active {
+            color: var(--lavender-dark);
+            background: rgba(156, 151, 196, 0.12);
+        }
+        
+        /* Dashboard Panels */
+        .dash-panel {
+            display: none;
+        }
+        
+        .dash-panel.active {
+            display: block;
+        }
+        
+        /* Greeting Header */
+        .dash-header {
+            margin-bottom: 32px;
+        }
+        
+        .dash-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+        
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+        }
+        
+        .bento-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .bento-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--charcoal);
+        }
+        
+        /* Continue Program Card */
+        .program-progress-wrap {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        
+        .progress-circle-svg {
+            width: 100px;
+            height: 100px;
+            transform: rotate(-90deg);
+        }
+        
+        .progress-circle-bg {
+            fill: none;
+            stroke: var(--cream-dark);
+            stroke-width: 8;
+        }
+        
+        .progress-circle-bar {
+            fill: none;
+            stroke: var(--terracotta);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 282.7;
+            stroke-dashoffset: 175.2; /* Day 8 of 21 (~38%) */
+            transition: stroke-dashoffset 1s ease;
+        }
+        
+        .progress-text-center {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--charcoal);
+        }
+        
+        /* Mood check-in */
+        .mood-options {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .mood-opt {
+            background: var(--cream);
+            border: 1.5px solid transparent;
+            border-radius: var(--radius-md);
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .mood-opt:hover {
+            background: var(--cream-dark);
+            transform: translateY(-2px);
+        }
+        
+        .mood-opt.active {
+            border-color: var(--lavender);
+            background: white;
+            box-shadow: 0 4px 16px rgba(156, 151, 196, 0.15);
+        }
+        
+        .mood-opt-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        
+        .mood-opt-label {
+            font-size: 0.72rem;
+            font-family: var(--font-head);
+            font-weight: 700;
+            color: var(--charcoal-light);
+        }
+        
+        /* Journal Lock Screen */
+        .journal-lock {
+            text-align: center;
+            padding: 60px 40px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        
+        .lock-icon-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: rgba(156, 151, 196, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: var(--lavender-dark);
+            font-size: 2rem;
+        }
+        
+        /* Voice Journal Wave */
+        .voice-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .audio-wave {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            height: 32px;
+            flex-grow: 1;
+        }
+        
+        .audio-wave.active {
+            display: flex;
+        }
+        
+        .wave-bar {
+            width: 4px;
+            height: 8px;
+            background: var(--terracotta);
+            border-radius: 2px;
+            animation: bounce 0.6s ease-in-out infinite alternate;
+        }
+        
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        
+        @keyframes bounce {
+            from { height: 6px; }
+            to { height: 28px; }
+        }
+        
+        /* Custom Switch */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider-switch {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--cream-dark);
+            transition: .3s;
+            border-radius: 24px;
+        }
+        
+        .slider-switch:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider-switch {
+            background-color: var(--sage);
+        }
+        
+        input:checked + .slider-switch:before {
+            transform: translateX(22px);
+        }
+        
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .settings-row:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-info h4 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        
+        .settings-info p {
+            font-size: 0.85rem;
+        }
+        
+        /* Journal Cards */
+        .journal-list {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .journal-entry-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            position: relative;
+        }
+        
+        .journal-entry-card h5 {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-family: var(--font-head);
+        }
+        
+        /* Inspector */
+        .raw-data-box {
+            font-family: monospace;
+            background: #2a2533;
+            color: #bfafe3;
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin-top: 12px;
+        }
+        
+        @media (max-width: 900px) {
+            .dash-layout {
+                grid-template-columns: 1fr;
+                padding-top: 100px;
+            }
+            .dash-sidebar {
+                position: static;
+            }
+            .dash-menu {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 8px;
+            }
+            .dash-menu-item {
+                white-space: nowrap;
+                padding: 10px 16px;
+            }
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ======= NAVBAR ======= -->
+    <header id="navbar">
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">
+                    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4L3 17v21h34V17L20 4z" stroke="#9C97C4" stroke-width="2.5" stroke-linejoin="round" fill="rgba(156,151,196,0.08)"/>
+                        <path d="M14 40V30a6 6 0 0 1 12 0v10" stroke="#D6B583" stroke-width="2" fill="rgba(214,181,131,0.1)"/>
+                        <path d="M20 24s-7-5-7-10c0-3.3 2.7-5 5.5-4 1 .3 1.3 1 1.5 1.5.2-.5.5-1.2 1.5-1.5C24.3 9 27 10.7 27 14c0 5-7 10-7 10z" fill="#D98F76" opacity="0.9"/>
+                    </svg>
+                    <span class="nav-logo-text">SoulMi.</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="therapists.html">Therapists</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="community.html">Community</a>
+                </nav>
+                <div class="nav-actions">
+                    <a href="tel:9152987821" class="crisis-link">Crisis Help</a>
+                    <div class="theme-toggle" id="theme-toggle" title="Toggle Zen Mode">
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" id="logout-btn">Log Out</button>
+                </div>
+                <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+        <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">×</button>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="therapists.html">Therapists</a>
+        <a href="resources.html">Resources</a>
+        <a href="community.html">Community</a>
+        <button class="btn btn-secondary" id="logout-btn-mob" style="margin-top: 12px; width:100%;">Log Out</button>
+    </div>
+
+    <!-- ======= DASHBOARD MAIN ======= -->
+    <div class="container">
+        <div class="dash-layout">
+            
+            <!-- Sidebar -->
+            <aside class="dash-sidebar">
+                <div class="dash-menu">
+                    <button class="dash-menu-item active" data-tab="overview">
+                        🏠 Overview
+                    </button>
+                    <button class="dash-menu-item" data-tab="journal">
+                        🔒 Encrypted Journal
+                    </button>
+                    <button class="dash-menu-item" data-tab="settings">
+                        ⚙️ Privacy &amp; Settings
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Panel Area -->
+            <main class="dash-content">
+                
+                <!-- OVERVIEW PANEL -->
+                <section id="panel-overview" class="dash-panel active">
+                    <div class="dash-header">
+                        <h1>Good morning, Priya 🌿</h1>
+                        <p>Welcome back to your safe space. Take a deep breath.</p>
+                    </div>
+
+                    <div class="bento-grid">
+                        
+                        <!-- Continue Program Widget -->
+                        <div class="bento-card" style="grid-column: 1 / -1;">
+                            <h3>📋 Your Current Program</h3>
+                            <div class="program-progress-wrap">
+                                <div style="position:relative; width:100px; height:100px;">
+                                    <svg class="progress-circle-svg">
+                                        <circle class="progress-circle-bg" cx="50" cy="50" r="45" />
+                                        <circle class="progress-circle-bar" id="program-progress-bar" cx="50" cy="50" r="45" />
+                                    </svg>
+                                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center;">
+                                        <span class="progress-text-center">38%</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h4 style="font-family:var(--font-head); font-size:1.15rem; color:var(--charcoal); margin-bottom:6px;">21-Day Mindfulness Journey</h4>
+                                    <p style="font-size:0.92rem; margin-bottom:12px;">Day 8: Observing Physical Sensations without judgment.</p>
+                                    <a href="resources.html" class="btn btn-primary btn-sm">Continue Day 8</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mood Check-In Widget -->
+                        <div class="bento-card">
+                            <h3>🌱 Mood Tracker</h3>
+                            <p style="font-size:0.85rem; margin-bottom:16px; color:var(--text-muted)">How is your mind feeling right now?</p>
+                            <div class="mood-options">
+                                <div class="mood-opt" data-score="1" title="Anxious">
+                                    <span class="mood-opt-icon">😰</span>
+                                    <span class="mood-opt-label">Anxious</span>
+                                </div>
+                                <div class="mood-opt" data-score="2" title="Unsettled">
+                                    <span class="mood-opt-icon">😟</span>
+                                    <span class="mood-opt-label">Restless</span>
+                                </div>
+                                <div class="mood-opt" data-score="3" title="Neutral">
+                                    <span class="mood-opt-icon">😐</span>
+                                    <span class="mood-opt-label">Neutral</span>
+                                </div>
+                                <div class="mood-opt" data-score="4" title="Content">
+                                    <span class="mood-opt-icon">🙂</span>
+                                    <span class="mood-opt-label">Content</span>
+                                </div>
+                                <div class="mood-opt" data-score="5" title="Calm">
+                                    <span class="mood-opt-icon">🧘</span>
+                                    <span class="mood-opt-label">Calm</span>
+                                </div>
+                            </div>
+                            <div id="mood-status-msg" style="font-size:0.9rem; text-align:center; min-height:24px; font-weight:600; color:var(--sage-dark)"></div>
+                        </div>
+
+                        <!-- Saved Resources Widget -->
+                        <div class="bento-card">
+                            <h3>🔖 Saved Resources</h3>
+                            <div id="saved-resources-list" style="display:flex; flex-direction:column; gap:12px;">
+                                <!-- Dynamically loaded bookmarked items -->
+                                <p style="color:var(--text-muted); font-size:0.88rem;">No saved resources yet. Browse resources to save your favorites.</p>
+                            </div>
+                            <a href="resources.html" class="pillar-link" style="margin-top:auto; padding-top:16px;">Browse All Resources →</a>
+                        </div>
+
+                        <!-- Community Activity Widget -->
+                        <div class="bento-card" style="grid-column: 1 / -1;">
+                            <h3>👥 Community Activity</h3>
+                            <div style="display:flex; flex-direction:column; gap:16px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px;">
+                                    <div>
+                                        <h4 style="font-size:0.95rem; margin-bottom:4px;"><a href="community.html" style="font-weight:600; color:var(--charcoal)">Anxiety &amp; Overthinking</a></h4>
+                                        <p style="font-size:0.82rem;">Recent: "Has anyone tried techniques for 3 AM spirals?"</p>
+                                    </div>
+                                    <span class="tag tag-anxiety">2 new replies</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <div>
+                                        <h4 style="font-size:0.95rem; margin-bottom:4px;"><a href="community.html" style="font-weight:600; color:var(--charcoal)">Daily Mindfulness Circle</a></h4>
+                                        <p style="font-size:0.82rem;">Recent: "Today I drank my coffee completely screen-free!"</p>
+                                    </div>
+                                    <span class="tag tag-mindfulness">15 replies</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- JOURNAL PANEL -->
+                <section id="panel-journal" class="dash-panel">
+                    <div class="dash-header">
+                        <h1>Encrypted Journaling</h1>
+                        <p>Your thoughts belong to you. We protect them cryptographically.</p>
+                    </div>
+
+                    <!-- Lock screen -->
+                    <div class="bento-card" id="journal-auth-container">
+                        <div class="journal-lock">
+                            <div class="lock-icon-wrap">
+                                🔐
+                            </div>
+                            <h3>Unlock Your Private Journal</h3>
+                            <p style="margin-bottom: 24px; font-size: 0.95rem;">Enter your custom encryption passphrase. Your journal is encrypted locally on your device using <strong>AES-GCM (256-bit)</strong>. SoulMi servers and AI can never access it.</p>
+                            <div class="form-group" style="margin-bottom: 16px;">
+                                <input type="password" id="journal-passphrase" placeholder="Create or enter your passphrase" style="text-align: center;">
+                            </div>
+                            <button class="btn btn-primary" id="unlock-journal-btn" style="width: 100%;">Unlock Journal</button>
+                        </div>
+                    </div>
+
+                    <!-- Active Journal Screen (Hidden by default) -->
+                    <div id="journal-active-container" style="display: none;">
+                        <div class="bento-card" style="margin-bottom:24px;">
+                            <h3>✍️ Write a New Entry</h3>
+                            
+                            <div class="form-group" style="margin-bottom:16px;">
+                                <label for="journal-title">Entry Title</label>
+                                <input type="text" id="journal-title" placeholder="A quiet morning / Processing stress...">
+                            </div>
+
+                            <div class="form-group" style="margin-bottom:16px;">
+                                <label for="journal-content">How is your day going?</label>
+                                <textarea id="journal-content" rows="6" placeholder="Express yourself freely here..."></textarea>
+                            </div>
+
+                            <div class="voice-controls">
+                                <button class="btn btn-secondary btn-sm" id="voice-dictation-btn">🎙️ Talk to Text</button>
+                                <button class="btn btn-secondary btn-sm" id="voice-record-btn">🔴 Record Audio Journal</button>
+                                
+                                <div class="audio-wave" id="audio-wave-visual">
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <div class="wave-bar"></div>
+                                    <span style="font-size:0.8rem; font-family:var(--font-head); font-weight:700; color:var(--terracotta);" id="audio-timer">00:00</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Audio Preview Container -->
+                            <div id="audio-preview-wrap" style="display:none; margin-top:20px; padding:12px; background:var(--cream); border-radius:var(--radius-md); align-items:center; gap:12px;">
+                                <span>🎵 Voice Entry Preview:</span>
+                                <audio id="audio-playback" controls style="flex-grow:1; height:36px;"></audio>
+                                <button class="btn btn-ghost btn-sm" id="delete-audio-btn">🗑️ Delete</button>
+                            </div>
+
+                            <div style="margin-top: 24px; display:flex; justify-content:space-between; align-items:center;">
+                                <span style="font-size:0.82rem; color:var(--sage-dark); font-weight:600;">🔒 AES-GCM Encrypted on Device</span>
+                                <button class="btn btn-primary" id="save-journal-btn">Encrypt &amp; Save Entry</button>
+                            </div>
+                        </div>
+
+                        <!-- Previous Entries -->
+                        <div class="bento-card">
+                            <h3>📁 Decrypted Journal History</h3>
+                            <div id="journal-entries-container" class="journal-list">
+                                <!-- Entries loaded and decrypted in real-time -->
+                            </div>
+                        </div>
+
+                        <!-- LocalStorage Inspector Demonstration -->
+                        <div class="bento-card" style="margin-top:24px;">
+                            <h3>🔍 Live Cryptographic Inspector</h3>
+                            <p style="font-size:0.85rem; margin-bottom:16px;">This inspector shows exactly what is written to the database (localStorage) versus what you see in the decrypted panel above. Notice how the database only sees ciphered text and initialization vectors.</p>
+                            <button class="btn btn-secondary btn-sm" id="refresh-inspector-btn" style="align-self:flex-start;">View Database Payload</button>
+                            <div class="raw-data-box" id="inspector-output">Click the button above to view raw database payload.</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SETTINGS PANEL -->
+                <section id="panel-settings" class="dash-panel">
+                    <div class="dash-header">
+                        <h1>Privacy &amp; Settings</h1>
+                        <p>Control your data sharing preferences and customize your sanctuary.</p>
+                    </div>
+
+                    <div class="bento-card">
+                        <h3>🔒 Privacy Controls</h3>
+                        
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Share Mood Logs with Matching Therapist</h4>
+                                <p>Allows your designated professional to view your emotional trends in preparation for sessions.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="share-mood-therapist" checked>
+                                <span class="slider-switch"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Anonymize Forum Contributions</h4>
+                                <p>Forces all community thread posts you submit to render with randomized natural aliases (e.g. "Anonymous Sunflower").</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="anon-forum" checked>
+                                <span class="slider-switch"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-row">
+                            <div class="settings-info">
+                                <h4>Allow AI Companion to Analyze Mood Trends</h4>
+                                <p>Lets SoulMi AI examine mood score variations over time to offer tailored grounding suggestions in chat.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="ai-mood-share" checked>
+                                <span class="slider-switch"></span>
+                            </label>
+                        </div>
+
+                        <div class="settings-row" style="opacity: 0.65;">
+                            <div class="settings-info">
+                                <h4>Allow AI Companion to Analyze Journal Entries</h4>
+                                <p>🔒 Cryptographically impossible. SoulMi AI cannot read or access your end-to-end encrypted journal data. The key is in your head.</p>
+                            </div>
+                            <label class="switch" style="cursor: not-allowed;">
+                                <input type="checkbox" id="ai-journal-share" disabled>
+                                <span class="slider-switch" style="background-color:var(--border);"></span>
+                            </label>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="nav-logo-text">SoulMi.</span>
+                    <p>Where every soul finds its home. A warm, safe sanctuary for your mind — anytime, anywhere.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-btn" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+                        <a href="#" class="social-btn" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+                        <a href="#" class="social-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+                    </div>
+                    <div class="footer-crisis">
+                        <strong>Crisis Support:</strong> iCall India — <a href="tel:9152987821">9152987821</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Platform</h5>
+                    <ul>
+                        <li><a href="#">SoulMi AI</a></li>
+                        <li><a href="#">Mood Tracker</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="therapists.html">Therapists</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li><a href="mailto:soulmi.2040@gmail.com">soulmi.2040@gmail.com</a></li>
+                        <li><a href="tel:+919100907664">+91 91009 07664</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 SoulMi Sanctuary. All rights reserved.</p>
+                <p>Made with care for every mind that needs a home.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+        <div class="bottom-nav-inner">
+            <a href="index.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Home</span>
+            </a>
+            <a href="community.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Community</span>
+            </a>
+            <a href="resources.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>Resources</span>
+            </a>
+            <a href="therapists.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+                <span>Therapists</span>
+            </a>
+        </div>
+    </nav>
+
+    <script src="script.js"></script>
+    <script>
+        // ============================================
+        // CRYPTOGRAPHY HELPER FUNCTIONS (AES-GCM)
+        // ============================================
+        let encryptionKey = null;
+
+        async function deriveKey(passphrase) {
+            const enc = new TextEncoder();
+            const keyMaterial = await window.crypto.subtle.importKey(
+                "raw",
+                enc.encode(passphrase),
+                { name: "PBKDF2" },
+                false,
+                ["deriveBits", "deriveKey"]
+            );
+            return window.crypto.subtle.deriveKey(
+                {
+                    name: "PBKDF2",
+                    salt: enc.encode("soulmi-salt-12345"), // static salt for matching key derivations
+                    iterations: 100000,
+                    hash: "SHA-256"
+                },
+                keyMaterial,
+                { name: "AES-GCM", length: 256 },
+                true,
+                ["encrypt", "decrypt"]
+            );
+        }
+
+        async function encryptData(text, key) {
+            const enc = new TextEncoder();
+            const iv = window.crypto.getRandomValues(new Uint8Array(12));
+            const ciphertext = await window.crypto.subtle.encrypt(
+                { name: "AES-GCM", iv: iv },
+                key,
+                enc.encode(text)
+            );
+            return {
+                ciphertext: btoa(String.fromCharCode(...new Uint8Array(ciphertext))),
+                iv: btoa(String.fromCharCode(...iv))
+            };
+        }
+
+        async function decryptData(ciphertextBase64, ivBase64, key) {
+            const dec = new TextDecoder();
+            const iv = new Uint8Array(atob(ivBase64).split("").map(c => c.charCodeAt(0)));
+            const ciphertext = new Uint8Array(atob(ciphertextBase64).split("").map(c => c.charCodeAt(0)));
+            try {
+                const decrypted = await window.crypto.subtle.decrypt(
+                    { name: "AES-GCM", iv: iv },
+                    key,
+                    ciphertext
+                );
+                return dec.decode(decrypted);
+            } catch (e) {
+                return "[Decryption Failed - Check Passphrase]";
+            }
+        }
+
+        // ============================================
+        // DASHBOARD TAB CONTROLLER
+        // ============================================
+        document.addEventListener("DOMContentLoaded", () => {
+            // Check session login (mockup)
+            const user = JSON.parse(localStorage.getItem("soulmi-user") || '{"name":"Priya","email":"priya@example.com"}');
+            if (user && user.name) {
+                const greeting = document.querySelector(".dash-header h1");
+                if (greeting) greeting.innerHTML = `Good morning, ${user.name} 🌿`;
+            }
+
+            // Tab switching
+            const tabs = document.querySelectorAll(".dash-menu-item");
+            const panels = document.querySelectorAll(".dash-panel");
+
+            tabs.forEach(tab => {
+                tab.addEventListener("click", () => {
+                    tabs.forEach(t => t.classList.remove("active"));
+                    panels.forEach(p => p.classList.remove("active"));
+
+                    tab.classList.add("active");
+                    const targetPanel = document.getElementById(`panel-${tab.dataset.tab}`);
+                    if (targetPanel) targetPanel.classList.add("active");
+                });
+            });
+
+            // Log out mockup redirect
+            const logout = (e) => {
+                e.preventDefault();
+                localStorage.removeItem("soulmi-user");
+                window.location.href = "index.html";
+            };
+            document.getElementById("logout-btn")?.addEventListener("click", logout);
+            document.getElementById("logout-btn-mob")?.addEventListener("click", logout);
+
+            // ============================================
+            // MOOD TRACKER INTERACTIVE SYSTEM
+            // ============================================
+            const moodOpts = document.querySelectorAll(".mood-opt");
+            const moodStatus = document.getElementById("mood-status-msg");
+
+            // Load last mood if exists
+            const savedMoods = JSON.parse(localStorage.getItem("soulmi-moods") || "[]");
+            if (savedMoods.length > 0) {
+                const lastLog = savedMoods[savedMoods.length - 1];
+                const activeOpt = document.querySelector(`.mood-opt[data-score="${lastLog.mood_score}"]`);
+                if (activeOpt) {
+                    activeOpt.classList.add("active");
+                    moodStatus.textContent = `Selected: ${activeOpt.title} (Logged ${new Date(lastLog.timestamp).toLocaleTimeString()})`;
+                }
+            }
+
+            moodOpts.forEach(opt => {
+                opt.addEventListener("click", () => {
+                    moodOpts.forEach(o => o.classList.remove("active"));
+                    opt.classList.add("active");
+
+                    const score = opt.dataset.score;
+                    const timestamp = new Date().toISOString();
+                    
+                    // Add to local mood logs
+                    const currentLogs = JSON.parse(localStorage.getItem("soulmi-moods") || "[]");
+                    currentLogs.push({
+                        user_id: user.email || "guest",
+                        timestamp: timestamp,
+                        mood_score: score,
+                        tags: [opt.title]
+                    });
+                    localStorage.setItem("soulmi-moods", JSON.stringify(currentLogs));
+                    moodStatus.textContent = `Thanks for sharing. Logged your mood as "${opt.title}".`;
+                });
+            });
+
+            // ============================================
+            // SAVED RESOURCES WIDGET
+            // ============================================
+            function loadSavedResources() {
+                const container = document.getElementById("saved-resources-list");
+                if (!container) return;
+
+                const savedPostIds = JSON.parse(localStorage.getItem("soulmi-saved-posts") || "[]");
+                
+                // Mock database resource items
+                const allResources = [
+                    { id: 1, title: "Box Breathing: 5-Minute Reset", category: "Anxiety", link: "resources.html" },
+                    { id: 2, title: "Body Scan Meditation for Sleep", category: "Sleep", link: "resources.html" },
+                    { id: 3, title: "The Inner Critic: Recognising & Responding", category: "Self-Esteem", link: "resources.html" },
+                    { id: 4, title: "4-7-8 Breathing for Insomnia", category: "Sleep", link: "resources.html" },
+                    { id: 5, title: "Setting Boundaries Without Guilt", category: "Relationships", link: "resources.html" }
+                ];
+
+                const matches = allResources.filter(r => savedPostIds.includes(r.id));
+                if (matches.length === 0) {
+                    container.innerHTML = `<p style="color:var(--text-muted); font-size:0.88rem;">No saved resources yet. Browse resources to save your favorites.</p>`;
+                    return;
+                }
+
+                container.innerHTML = "";
+                matches.forEach(item => {
+                    const row = document.createElement("div");
+                    row.style.cssText = "display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:8px;";
+                    row.innerHTML = `
+                        <span style="font-size:0.92rem; font-weight:600; color:var(--charcoal);">${item.title}</span>
+                        <span class="tag tag-${item.category.toLowerCase().replace(' ', '-')}">${item.category}</span>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+            loadSavedResources();
+
+            // ============================================
+            // CRYPTOGRAPHIC JOURNAL ACTIONS
+            // ============================================
+            const unlockBtn = document.getElementById("unlock-journal-btn");
+            const passField = document.getElementById("journal-passphrase");
+            const lockContainer = document.getElementById("journal-auth-container");
+            const activeContainer = document.getElementById("journal-active-container");
+            const saveJournalBtn = document.getElementById("save-journal-btn");
+            const journalTitle = document.getElementById("journal-title");
+            const journalContent = document.getElementById("journal-content");
+            const entriesContainer = document.getElementById("journal-entries-container");
+            const refreshInspectorBtn = document.getElementById("refresh-inspector-btn");
+            const inspectorOutput = document.getElementById("inspector-output");
+
+            // Voice Speech-to-Text Dictation
+            const voiceDictBtn = document.getElementById("voice-dictation-btn");
+            let recognition = null;
+            let isDictating = false;
+
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = (e) => {
+                    let interimText = '';
+                    let finalizedText = '';
+                    for (let i = e.resultIndex; i < e.results.length; ++i) {
+                        if (e.results[i].isFinal) {
+                            finalizedText += e.results[i][0].transcript;
+                        } else {
+                            interimText += e.results[i][0].transcript;
+                        }
+                    }
+                    if (finalizedText) {
+                        journalContent.value += (journalContent.value ? ' ' : '') + finalizedText;
+                    }
+                };
+
+                recognition.onerror = (e) => {
+                    console.error("Speech Recognition Error", e);
+                    stopDictation();
+                };
+
+                recognition.onend = () => {
+                    stopDictation();
+                };
+            } else {
+                voiceDictBtn.style.display = "none";
+            }
+
+            function startDictation() {
+                isDictating = true;
+                voiceDictBtn.textContent = "🛑 Stop Dictation";
+                voiceDictBtn.classList.add("btn-primary");
+                voiceDictBtn.classList.remove("btn-secondary");
+                recognition.start();
+            }
+
+            function stopDictation() {
+                isDictating = false;
+                voiceDictBtn.textContent = "🎙️ Talk to Text";
+                voiceDictBtn.classList.remove("btn-primary");
+                voiceDictBtn.classList.add("btn-secondary");
+                recognition.stop();
+            }
+
+            voiceDictBtn?.addEventListener("click", () => {
+                if (isDictating) stopDictation();
+                else startDictation();
+            });
+
+            // Voice Audio Recorder (Encrypted Audio Blob)
+            const voiceRecBtn = document.getElementById("voice-record-btn");
+            const audioWave = document.getElementById("audio-wave-visual");
+            const audioTimer = document.getElementById("audio-timer");
+            const audioPlayback = document.getElementById("audio-playback");
+            const audioPreviewWrap = document.getElementById("audio-preview-wrap");
+            const deleteAudioBtn = document.getElementById("delete-audio-btn");
+
+            let mediaRecorder = null;
+            let audioChunks = [];
+            let isRecording = false;
+            let recordStartTime = 0;
+            let timerInterval = null;
+            let recordedAudioBase64 = null; // Stored locally to encrypt on save
+
+            function updateTimer() {
+                const diff = Date.now() - recordStartTime;
+                const sec = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
+                const min = Math.floor((diff / 1000 / 60) % 60).toString().padStart(2, '0');
+                audioTimer.textContent = `${min}:${sec}`;
+            }
+
+            async function startRecording() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = (e) => {
+                        if (e.data.size > 0) audioChunks.push(e.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        reader.onloadend = () => {
+                            recordedAudioBase64 = reader.result;
+                            audioPlayback.src = URL.createObjectURL(audioBlob);
+                            audioPreviewWrap.style.display = "flex";
+                        };
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    recordStartTime = Date.now();
+                    timerInterval = setInterval(updateTimer, 1000);
+                    voiceRecBtn.textContent = "⏹️ Stop Recording";
+                    voiceRecBtn.classList.add("btn-primary");
+                    voiceRecBtn.classList.remove("btn-secondary");
+                    audioWave.classList.add("active");
+                } catch (e) {
+                    console.error("Audio recording permission or device issue", e);
+                    alert("Could not access microphone. Please verify device permissions.");
+                }
+            }
+
+            function stopRecording() {
+                if (mediaRecorder && mediaRecorder.state !== "inactive") {
+                    mediaRecorder.stop();
+                    mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                }
+                isRecording = false;
+                clearInterval(timerInterval);
+                voiceRecBtn.textContent = "🔴 Record Audio Journal";
+                voiceRecBtn.classList.remove("btn-primary");
+                voiceRecBtn.classList.add("btn-secondary");
+                audioWave.classList.remove("active");
+            }
+
+            voiceRecBtn?.addEventListener("click", () => {
+                if (isRecording) stopRecording();
+                else startRecording();
+            });
+
+            deleteAudioBtn?.addEventListener("click", () => {
+                recordedAudioBase64 = null;
+                audioPlayback.src = "";
+                audioPreviewWrap.style.display = "none";
+            });
+
+            // Unlock and load
+            unlockBtn.addEventListener("click", async () => {
+                const pass = passField.value.trim();
+                if (!pass) {
+                    alert("Please enter a passphrase.");
+                    return;
+                }
+
+                try {
+                    encryptionKey = await deriveKey(pass);
+                    lockContainer.style.display = "none";
+                    activeContainer.style.display = "block";
+                    loadJournalEntries();
+                } catch (e) {
+                    alert("Error deriving encryption key: " + e.message);
+                }
+            });
+
+            // Save Entry
+            saveJournalBtn.addEventListener("click", async () => {
+                const title = journalTitle.value.trim();
+                const content = journalContent.value.trim();
+
+                if (!title) {
+                    alert("Please write a title.");
+                    return;
+                }
+
+                if (!content && !recordedAudioBase64) {
+                    alert("Please write a journal message or record a voice entry.");
+                    return;
+                }
+
+                try {
+                    const timestamp = new Date().toISOString();
+                    
+                    // Create entry bundle
+                    const entryData = {
+                        title: title,
+                        content: content,
+                        audioPayload: recordedAudioBase64 || null
+                    };
+
+                    // Encrypt
+                    const encryptedResult = await encryptData(JSON.stringify(entryData), encryptionKey);
+
+                    // DB Schema matching EncryptedJournal in gemini.md
+                    const finalPayload = {
+                        user_id: user.email || "guest",
+                        timestamp: timestamp,
+                        type: recordedAudioBase64 ? "audio" : "text",
+                        encrypted_payload: encryptedResult.ciphertext,
+                        iv: encryptedResult.iv
+                    };
+
+                    // Save
+                    const currentJournals = JSON.parse(localStorage.getItem("soulmi-journals") || "[]");
+                    currentJournals.push(finalPayload);
+                    localStorage.setItem("soulmi-journals", JSON.stringify(currentJournals));
+
+                    // Reset form
+                    journalTitle.value = "";
+                    journalContent.value = "";
+                    recordedAudioBase64 = null;
+                    audioPreviewWrap.style.display = "none";
+                    
+                    // Refresh UI
+                    loadJournalEntries();
+                    updateInspector();
+                } catch (e) {
+                    alert("Encryption failed: " + e.message);
+                }
+            });
+
+            // Load & Decrypt entries
+            async function loadJournalEntries() {
+                entriesContainer.innerHTML = "";
+                const rawJournals = JSON.parse(localStorage.getItem("soulmi-journals") || "[]");
+                const matches = rawJournals.filter(j => j.user_id === (user.email || "guest"));
+
+                if (matches.length === 0) {
+                    entriesContainer.innerHTML = `<p style="color:var(--text-muted); font-size:0.88rem; text-align:center; padding: 24px 0;">No journal entries yet. Your mind sanctuary is ready when you are.</p>`;
+                    return;
+                }
+
+                // Sort descending by date
+                matches.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+                for (let index = 0; index < matches.length; index++) {
+                    const entry = matches[index];
+                    const decryptedText = await decryptData(entry.encrypted_payload, entry.iv, encryptionKey);
+                    
+                    const card = document.createElement("div");
+                    card.className = "journal-entry-card";
+
+                    const dateStr = new Date(entry.timestamp).toLocaleString();
+                    
+                    if (decryptedText.startsWith("[")) {
+                        // Decryption failed (invalid key or tampered)
+                        card.innerHTML = `
+                            <h5>${dateStr} 🔒 [ENCRYPTED]</h5>
+                            <p style="color: var(--terracotta-dark); font-style: italic; font-weight:600;">${decryptedText}</p>
+                        `;
+                    } else {
+                        try {
+                            const data = JSON.parse(decryptedText);
+                            let bodyHTML = `<p>${data.content.replace(/\n/g, '<br>')}</p>`;
+                            
+                            if (data.audioPayload) {
+                                bodyHTML += `
+                                    <div style="margin-top:14px; padding:10px; background:var(--cream); border-radius:var(--radius-sm); display:flex; align-items:center; gap:10px; width:fit-content; min-width:280px;">
+                                        <span>🎙️ Voice Journal:</span>
+                                        <audio src="${data.audioPayload}" controls style="height:32px;"></audio>
+                                    </div>
+                                `;
+                            }
+
+                            card.innerHTML = `
+                                <h4 style="font-family:var(--font-head); font-weight:700; color:var(--charcoal); margin-bottom:4px;">${data.title}</h4>
+                                <h5>${dateStr} 🟢 Decrypted</h5>
+                                ${bodyHTML}
+                            `;
+                        } catch (e) {
+                            card.innerHTML = `
+                                <h5>${dateStr} 🟢 Decrypted</h5>
+                                <p>${decryptedText}</p>
+                            `;
+                        }
+                    }
+                    entriesContainer.appendChild(card);
+                }
+            }
+
+            // Cryptographic Inspector
+            function updateInspector() {
+                const rawJournals = localStorage.getItem("soulmi-journals") || "[]";
+                inspectorOutput.textContent = JSON.stringify(JSON.parse(rawJournals), null, 2);
+            }
+
+            refreshInspectorBtn.addEventListener("click", updateInspector);
+        });
+    </script>
+</body>
+</html>

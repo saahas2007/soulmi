@@ -344,6 +344,21 @@ if (authTabs.length && registerForm && loginForm) {
         });
     };
 
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameVal = document.getElementById('reg-name')?.value.trim() || 'Priya';
+        const emailVal = document.getElementById('reg-email')?.value.trim() || 'priya@example.com';
+        localStorage.setItem('soulmi-user', JSON.stringify({ name: nameVal, email: emailVal }));
+        window.location.href = 'dashboard.html';
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailVal = document.getElementById('login-email')?.value.trim() || 'priya@example.com';
+        localStorage.setItem('soulmi-user', JSON.stringify({ name: 'Priya', email: emailVal }));
+        window.location.href = 'dashboard.html';
+    });
+
     authTabs.forEach(tab => {
         tab.addEventListener('click', () => switchToTab(tab.dataset.tab));
     });
