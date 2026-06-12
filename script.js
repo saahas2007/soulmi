@@ -171,7 +171,7 @@ if (affBtn && affText) {
 }
 
 // ============================================
-// AI CHAT WIDGET
+// AI CHAT WIDGET — OpenRouter Integration
 // ============================================
 const chatToggle = document.getElementById('chat-toggle');
 const chatWindow = document.getElementById('chat-window');
@@ -180,45 +180,111 @@ const sendBtn = document.getElementById('send-btn');
 const chatInput = document.getElementById('chat-input-field');
 const chatBody = document.getElementById('chat-body');
 
-const aiResponses = [
-    "I hear you. Take a deep breath — I'm right here with you.",
-    "It's completely okay to feel that way. You are in a safe space.",
-    "That sounds difficult. Would you like to try a quick grounding exercise?",
-    "Thank you for sharing that with me. I'm listening, fully.",
-    "You don't have to figure everything out right now. One breath at a time.",
-    "Your feelings make sense. You're not too much.",
-    "I'm glad you reached out. That took courage.",
+// OpenRouter configuration (loaded from gitignored config.js)
+const OPENROUTER_API_KEY = window.SOULMI_CONFIG?.OPENROUTER_API_KEY || '';
+const OPENROUTER_MODEL = window.SOULMI_CONFIG?.OPENROUTER_MODEL || 'meta-llama/llama-4-maverick';
+
+// Conversation history for context
+const conversationHistory = [
+    {
+        role: 'system',
+        content: `You are SoulMi AI, a warm, compassionate, and deeply empathetic mental health companion. You are NOT a replacement for professional therapy — you are a supportive friend who listens without judgment.
+
+Your personality:
+- Warm, gentle, and caring — like a trusted friend
+- You validate feelings before offering perspective
+- You use simple, heartfelt language (avoid clinical jargon)
+- You ask thoughtful follow-up questions to understand better
+- You suggest grounding exercises, breathing techniques, or journaling when appropriate
+- You gently recommend professional help when situations seem serious
+- Keep responses concise (2-4 sentences usually) but meaningful
+- Use occasional emojis sparingly (💛, 🌱, 🤗) to feel human
+
+Important rules:
+- Never diagnose conditions or prescribe medication
+- Never minimize someone's feelings
+- If someone mentions self-harm or suicide, immediately provide crisis resources (988 Suicide & Crisis Lifeline, or local emergency services) and encourage them to reach out
+- Always remind users that they are not alone`
+    }
 ];
 
 if (chatToggle && chatWindow) {
     chatToggle.addEventListener('click', () => chatWindow.classList.toggle('active'));
     if (closeChat) closeChat.addEventListener('click', () => chatWindow.classList.remove('active'));
 
+    const appendMessage = (text, className) => {
+        const msg = document.createElement('div');
+        msg.classList.add('message', className);
+        msg.textContent = text;
+        chatBody.appendChild(msg);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        return msg;
+    };
+
+    const showTyping = () => {
+        const typing = document.createElement('div');
+        typing.classList.add('typing-indicator');
+        typing.innerHTML = '<span></span><span></span><span></span>';
+        typing.id = 'typing-dots';
+        chatBody.appendChild(typing);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        return typing;
+    };
+
+    const sendToOpenRouter = async (userText) => {
+        conversationHistory.push({ role: 'user', content: userText });
+
+        const typingEl = showTyping();
+
+        try {
+            const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                    'Content-Type': 'application/json',
+                    'HTTP-Referer': window.location.origin || 'https://soulmi.vercel.app',
+                    'X-Title': 'SoulMi AI Companion'
+                },
+                body: JSON.stringify({
+                    model: OPENROUTER_MODEL,
+                    messages: conversationHistory.slice(-12), // Keep last 12 messages for context window
+                    max_tokens: 300,
+                    temperature: 0.8,
+                    top_p: 0.9
+                })
+            });
+
+            if (typingEl.parentNode) typingEl.remove();
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                console.error('OpenRouter API error:', response.status, errData);
+                appendMessage("I'm having trouble connecting right now. Please try again in a moment. 💛", 'ai-msg');
+                return;
+            }
+
+            const data = await response.json();
+            const aiText = data.choices?.[0]?.message?.content?.trim()
+                || "I'm here for you. Could you tell me more about what's on your mind?";
+
+            conversationHistory.push({ role: 'assistant', content: aiText });
+            appendMessage(aiText, 'ai-msg');
+
+        } catch (err) {
+            console.error('OpenRouter fetch error:', err);
+            if (typingEl.parentNode) typingEl.remove();
+            appendMessage("I'm having a moment of silence — but I'm still here. Try sending your message again. 🌱", 'ai-msg');
+        }
+    };
+
     const sendMessage = () => {
         const text = chatInput.value.trim();
         if (!text) return;
 
-        const userMsg = document.createElement('div');
-        userMsg.classList.add('message', 'user-msg');
-        userMsg.textContent = text;
-        chatBody.appendChild(userMsg);
+        appendMessage(text, 'user-msg');
         chatInput.value = '';
-        chatBody.scrollTop = chatBody.scrollHeight;
 
-        const typing = document.createElement('div');
-        typing.classList.add('typing-indicator');
-        typing.textContent = 'SoulMi AI is typing…';
-        chatBody.appendChild(typing);
-        chatBody.scrollTop = chatBody.scrollHeight;
-
-        setTimeout(() => {
-            chatBody.removeChild(typing);
-            const aiMsg = document.createElement('div');
-            aiMsg.classList.add('message', 'ai-msg');
-            aiMsg.textContent = aiResponses[Math.floor(Math.random() * aiResponses.length)];
-            chatBody.appendChild(aiMsg);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 1400);
+        sendToOpenRouter(text);
     };
 
     if (sendBtn) sendBtn.addEventListener('click', sendMessage);
