@@ -3,197 +3,505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SoulMi | A Safe Place for Your Mind</title>
-    <link rel="stylesheet" href="style.css?v=4">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>SoulMi | A Home for Your Mind</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
 
+    <!-- ======= NAVBAR ======= -->
     <header id="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">SoulMi<span>.</span></a>
-            <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="about.html">About</a>
-                <a href="therapists.html">Find Therapist</a>
-                <a href="index.html#features">Features</a>
-            </nav>
-            <div class="nav-actions">
-                <div class="theme-toggle" id="theme-toggle" title="Toggle Zen Mode">
-                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <div class="container">
+            <div class="nav-inner">
+                <a href="index.html" class="nav-logo">
+                    <svg class="nav-logo-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4L3 17v21h34V17L20 4z" stroke="#9C97C4" stroke-width="2.5" stroke-linejoin="round" fill="rgba(156,151,196,0.08)"/>
+                        <path d="M14 40V30a6 6 0 0 1 12 0v10" stroke="#D6B583" stroke-width="2" fill="rgba(214,181,131,0.1)"/>
+                        <path d="M20 24s-7-5-7-10c0-3.3 2.7-5 5.5-4 1 .3 1.3 1 1.5 1.5.2-.5.5-1.2 1.5-1.5C24.3 9 27 10.7 27 14c0 5-7 10-7 10z" fill="#D98F76" opacity="0.9"/>
+                    </svg>
+                    <span class="nav-logo-text">SoulMi.</span>
+                </a>
+                <nav class="nav-links">
+                    <a href="index.html" class="active">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="therapists.html">Therapists</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="community.html">Community</a>
+                </nav>
+                <div class="nav-actions">
+                    <a href="tel:9152987821" class="crisis-link">Crisis Help</a>
+                    <div class="theme-toggle" id="theme-toggle" title="Toggle Zen Mode">
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </div>
+                    <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
                 </div>
-                <a href="register.html" class="btn-primary nav-btn">Register</a>
+                <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content reveal">
-            <div class="chip">Your emotional support companion</div>
-            <h1>A safe place for your mind to breathe.</h1>
-            <p>SoulMi helps you understand your emotions, connect with professionals, and find a supportive community that truly listens.</p>
-            
-            <div class="mood-widget">
-                <label for="mood-slider">How is your mind feeling right now?</label>
-                <div class="slider-wrapper">
-                    <span class="mood-label">Anxious</span>
-                    <input type="range" id="mood-slider" min="0" max="100" value="80">
-                    <span class="mood-label">Calm</span>
-                </div>
-            </div>
+    <!-- Mobile Menu -->
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+        <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">×</button>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="therapists.html">Therapists</a>
+        <a href="resources.html">Resources</a>
+        <a href="community.html">Community</a>
+        <a href="register.html" class="btn btn-primary" style="margin-top: 12px;">Get Started</a>
+    </div>
 
-            <div class="hero-actions">
-                <a href="#features" class="btn-primary">Explore Platform</a>
-                <button id="open-breathe" class="btn-secondary" style="border: none;">Take a Breath</button>
-            </div>
+    <!-- ======= HERO ======= -->
+    <section class="hero">
+        <div class="hero-bg">
+            <div class="hero-blob hero-blob-1"></div>
+            <div class="hero-blob hero-blob-2"></div>
+            <div class="hero-blob hero-blob-3"></div>
         </div>
-        
-        <div class="hero-visual reveal">
-            <div class="visual-blob"></div>
-            
-            <div class="floating-card card-1">
-                <div class="icon-box lavender">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/><path d="M8 14C8 14 9.5 16 12 16C14.5 16 16 14 16 14"/><path d="M9 9H9.01"/><path d="M15 9H15.01"/></svg>
-                </div>
-                <div class="card-text">
-                    <h4>Mood Tracker</h4>
-                    <p>Feeling Calm today</p>
-                </div>
-            </div>
+        <div class="container">
+            <div class="hero-inner">
+                <div class="hero-content reveal">
+                    <div class="chip chip-lavender hero-tagline-chip">Your emotional support companion</div>
+                    <h1>A home for your <span class="text-gold">mind</span>, and people who <span class="text-lavender">get it.</span></h1>
+                    <p class="hero-sub">SoulMi helps you understand your emotions, connect with certified professionals, and find a community that truly listens — 24/7.</p>
 
-            <div class="floating-card card-2">
-                <div class="icon-box mint">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <div class="mood-widget">
+                        <label for="mood-slider">How is your mind feeling right now?</label>
+                        <div class="slider-wrapper">
+                            <span class="mood-label">Anxious</span>
+                            <input type="range" id="mood-slider" min="0" max="100" value="70">
+                            <span class="mood-label">Calm</span>
+                        </div>
+                    </div>
+
+                    <div class="hero-ctas">
+                        <a href="register.html" class="btn btn-primary btn-lg">Join SoulMi — It's Free</a>
+                        <button id="open-breathe" class="btn btn-secondary btn-lg">Take a Breath</button>
+                    </div>
                 </div>
-                <div class="card-text">
-                    <h4>SoulMi AI</h4>
-                    <p>I'm here for you, always.</p>
+
+                <div class="hero-visual reveal">
+                    <div class="hero-logo-wrap">
+                        <div class="hero-logo-glow"></div>
+                        <svg class="hero-logo-img" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M100 20L18 82v98h164V82L100 20z" stroke="#9C97C4" stroke-width="5" stroke-linejoin="round" fill="rgba(156,151,196,0.06)"/>
+                            <rect x="76" y="140" width="48" height="60" rx="24" stroke="#D6B583" stroke-width="3.5" fill="rgba(214,181,131,0.08)"/>
+                            <path d="M100 115s-28-18-28-38c0-12 9-19 19-16 4 1.2 6.5 4 7.5 7 1-3 3.5-5.8 7.5-7 10-3 19 4 19 16 0 20-25 38-25 38z" fill="#D98F76" opacity="0.88"/>
+                            <rect x="34" y="112" width="32" height="32" rx="10" stroke="#9C97C4" stroke-width="3" fill="rgba(156,151,196,0.08)"/>
+                            <rect x="134" y="112" width="32" height="32" rx="10" stroke="#9C97C4" stroke-width="3" fill="rgba(156,151,196,0.08)"/>
+                        </svg>
+                    </div>
+                    <div class="hero-float-card" style="top: 6%; right: -4%; animation-delay: 1s;">
+                        <div class="float-card-icon float-card-icon-lavender">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                        </div>
+                        <div class="float-card-text">
+                            <h5>Mood Tracker</h5>
+                            <p>Feeling Calm today</p>
+                        </div>
+                    </div>
+                    <div class="hero-float-card" style="bottom: 10%; left: -6%; animation-delay: 3.5s;">
+                        <div class="float-card-icon float-card-icon-terracotta">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <div class="float-card-text">
+                            <h5>SoulMi AI</h5>
+                            <p>I'm here for you, always.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="breathing-modal" class="modal">
+    <!-- ======= TRUST STRIP ======= -->
+    <div class="trust-strip">
+        <div class="container">
+            <div class="trust-strip-inner">
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div>
+                        <strong>10,000+</strong>
+                        <span>Members worldwide</span>
+                    </div>
+                </div>
+                <div class="trust-divider"></div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    </div>
+                    <div>
+                        <strong>Backed by</strong>
+                        <span>Licensed therapists</span>
+                    </div>
+                </div>
+                <div class="trust-divider"></div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <div>
+                        <strong>100% Private</strong>
+                        <span>Your data, your space</span>
+                    </div>
+                </div>
+                <div class="trust-divider"></div>
+                <div class="trust-item">
+                    <div class="trust-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                        <strong>24/7 Support</strong>
+                        <span>AI companion, always on</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======= VALUE PILLARS ======= -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="chip chip-lavender">How SoulMi helps</div>
+                <h2>Everything you need in one safe space.</h2>
+                <p>Whether you need a 3 AM listen, structured therapy, or a community — we built this ecosystem for you.</p>
+            </div>
+            <div class="pillars-grid">
+                <div class="pillar-card reveal">
+                    <div class="pillar-icon pillar-icon-lavender">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>Find Your People</h3>
+                    <p>Connect with a moderated community that truly understands your journey. Share, listen, and grow together in a safe space free from judgment.</p>
+                    <a href="community.html" class="pillar-link">Explore Community →</a>
+                </div>
+                <div class="pillar-card reveal reveal-delay-1">
+                    <div class="pillar-icon pillar-icon-terracotta">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </div>
+                    <h3>Learn &amp; Grow</h3>
+                    <p>Access our curated library of exercises, guided meditations, and expert articles — organized by what your mind needs most right now.</p>
+                    <a href="resources.html" class="pillar-link">Browse Resources →</a>
+                </div>
+                <div class="pillar-card reveal reveal-delay-2">
+                    <div class="pillar-icon pillar-icon-sage">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.72a16 16 0 0 0 7.37 7.37l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 17v-.08z"/></svg>
+                    </div>
+                    <h3>Feel Supported</h3>
+                    <p>Connect with certified therapists who match your language, specialty, and availability. Real humans who are ready to listen.</p>
+                    <a href="therapists.html" class="pillar-link">Find a Therapist →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= COMMUNITY SPOTLIGHT ======= -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="chip chip-terracotta">Community</div>
+                <h2>Real stories. Real support.</h2>
+                <p>See what our members are sharing. Every voice matters, every story belongs.</p>
+            </div>
+            <div class="spotlight-grid">
+                <div class="spotlight-card reveal">
+                    <div class="spotlight-header">
+                        <div class="avatar avatar-lavender">A</div>
+                        <div>
+                            <span class="spotlight-name">Anonymous Sunflower</span>
+                            <span class="spotlight-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <p>"Managing anxiety during exam season felt impossible — until I found this space. The breathing exercises + community check-ins genuinely helped me through finals."</p>
+                    <div class="spotlight-footer">
+                        <span class="tag tag-anxiety">Just Venting</span>
+                        <span class="tag tag-mindfulness">24 hearts</span>
+                    </div>
+                </div>
+                <div class="spotlight-card reveal reveal-delay-1">
+                    <div class="spotlight-header">
+                        <div class="avatar avatar-sage">M</div>
+                        <div>
+                            <span class="spotlight-name">Mindful Mango</span>
+                            <span class="spotlight-time">Yesterday</span>
+                        </div>
+                    </div>
+                    <p>"Finally tried journaling consistently for 30 days using SoulMi's prompts. Absolute game changer. I can actually see my thought patterns shifting. Celebrating this win!"</p>
+                    <div class="spotlight-footer">
+                        <span class="tag tag-self-esteem">Celebrating a Win</span>
+                        <span class="tag tag-mindfulness">41 hearts</span>
+                    </div>
+                </div>
+                <div class="spotlight-card reveal reveal-delay-2">
+                    <div class="spotlight-header">
+                        <div class="avatar avatar-terracotta">R</div>
+                        <div>
+                            <span class="spotlight-name">Restful River</span>
+                            <span class="spotlight-time">3 days ago</span>
+                        </div>
+                    </div>
+                    <p>"Has anyone found techniques that actually work for 3 AM anxiety spirals? The SoulMi AI is great but I'd love to hear what the community does differently."</p>
+                    <div class="spotlight-footer">
+                        <span class="tag tag-sleep">Looking for Advice</span>
+                        <span class="tag tag-mindfulness">18 replies</span>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="community.html" class="btn btn-secondary">Join the Conversation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= FEATURED ARTICLES ======= -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="chip chip-sage">Insights</div>
+                <h2>Insights for your mind.</h2>
+                <p>Expert-backed articles, exercises, and guides — written with your wellbeing in mind.</p>
+            </div>
+            <div class="articles-grid">
+                <div class="article-card reveal">
+                    <div class="article-thumb article-thumb-terracotta">🌬️</div>
+                    <div class="article-body">
+                        <span class="tag tag-anxiety">Anxiety</span>
+                        <h4>5 Grounding Techniques That Actually Work During Panic</h4>
+                        <p>Evidence-based methods to bring yourself back to the present moment when anxiety spikes.</p>
+                        <div class="article-meta">
+                            <span>Dr. S. Mehra</span>
+                            <span>·</span>
+                            <span>5 min read</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-card reveal reveal-delay-1">
+                    <div class="article-thumb article-thumb-lavender">🧘</div>
+                    <div class="article-body">
+                        <span class="tag tag-mindfulness">Mindfulness</span>
+                        <h4>The Science Behind Mindful Breathing &amp; Your Nervous System</h4>
+                        <p>How controlled breathwork directly signals your body to shift out of fight-or-flight mode.</p>
+                        <div class="article-meta">
+                            <span>SoulMi Editorial</span>
+                            <span>·</span>
+                            <span>7 min read</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="article-card reveal reveal-delay-2">
+                    <div class="article-thumb article-thumb-sage">🌙</div>
+                    <div class="article-body">
+                        <span class="tag tag-sleep">Sleep</span>
+                        <h4>Building a Sleep Ritual That Your Anxious Mind Will Actually Follow</h4>
+                        <p>Gentle, non-rigid habits that signal safety to your brain and ease the transition to rest.</p>
+                        <div class="article-meta">
+                            <span>Mrs. S. Veldanda</span>
+                            <span>·</span>
+                            <span>6 min read</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="resources.html" class="btn btn-secondary">Browse All Resources</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= TESTIMONIALS ======= -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>What our community says.</h2>
+                <p>Real words from real members who found their home here.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card reveal">
+                    <p>"SoulMi helped me sleep again. The breathing exercises became my anchor during panic attacks — I use them every night now. I finally feel in control."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar avatar-lavender" style="width:38px;height:38px;font-size:0.9rem;">P</div>
+                        <div>
+                            <strong>Priya, 24</strong>
+                            <span>Hyderabad</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-1">
+                    <p>"Finally, a place without judgment. I was skeptical at first, but the community here is unlike anything I've experienced. They just… get it. No advice nobody asked for."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar avatar-sage" style="width:38px;height:38px;font-size:0.9rem;">K</div>
+                        <div>
+                            <strong>Karan, 19</strong>
+                            <span>Delhi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card reveal reveal-delay-2">
+                    <p>"Found my therapist in under 10 minutes. She speaks Telugu, understands my family dynamics, and has been genuinely transformative. SoulMi made it feel possible."</p>
+                    <div class="testimonial-author">
+                        <div class="avatar avatar-terracotta" style="width:38px;height:38px;font-size:0.9rem;">A</div>
+                        <div>
+                            <strong>Ananya, 28</strong>
+                            <span>Bengaluru</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= DAILY AFFIRMATION ======= -->
+    <section class="affirmation-section">
+        <div class="container">
+            <div class="affirmation-card reveal">
+                <h3>Your Daily Affirmation</h3>
+                <p id="affirmation-text">"You are enough, exactly as you are."</p>
+                <button id="new-affirmation" class="btn btn-primary" style="margin-top: 28px;">Draw Another</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= MARQUEE ======= -->
+    <div class="marquee-section" aria-hidden="true">
+        <div class="marquee-track">
+            <span>"SoulMi helped me sleep again."</span><span class="dot">•</span>
+            <span>"Finally, a place without judgment."</span><span class="dot">•</span>
+            <span>"My daily sanctuary."</span><span class="dot">•</span>
+            <span>"The AI actually listens."</span><span class="dot">•</span>
+            <span>"Found my perfect therapist in minutes."</span><span class="dot">•</span>
+            <span>"SoulMi helped me sleep again."</span><span class="dot">•</span>
+            <span>"Finally, a place without judgment."</span><span class="dot">•</span>
+            <span>"My daily sanctuary."</span><span class="dot">•</span>
+            <span>"The AI actually listens."</span><span class="dot">•</span>
+            <span>"Found my perfect therapist in minutes."</span><span class="dot">•</span>
+        </div>
+    </div>
+
+    <!-- ======= CTA BANNER ======= -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-banner reveal">
+                <h2>Your soul deserves a home. Start today.</h2>
+                <p>Join thousands of people who've found calm, clarity, and connection on SoulMi. It's free to begin.</p>
+                <a href="register.html" class="btn btn-white btn-lg">Join SoulMi — It's Free</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= FOOTER ======= -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="nav-logo-text">SoulMi.</span>
+                    <p>Where every soul finds its home. A warm, safe sanctuary for your mind — anytime, anywhere.</p>
+                    <div class="footer-social">
+                        <a href="#" class="social-btn" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+                        </a>
+                        <a href="#" class="social-btn" aria-label="Twitter / X">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                        </a>
+                        <a href="#" class="social-btn" aria-label="LinkedIn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                    <div class="footer-crisis">
+                        <strong>Crisis Support:</strong> iCall India — <a href="tel:9152987821">9152987821</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5>Platform</h5>
+                    <ul>
+                        <li><a href="#">SoulMi AI</a></li>
+                        <li><a href="#">Mood Tracker</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                        <li><a href="community.html">Community</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="therapists.html">Therapists</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li><a href="mailto:soulmi.2040@gmail.com">soulmi.2040@gmail.com</a></li>
+                        <li><a href="tel:+919100907664">+91 91009 07664</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 SoulMi Sanctuary. All rights reserved.</p>
+                <p>Made with care for every mind that needs a home.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Nav -->
+    <nav class="bottom-nav" aria-label="Mobile navigation">
+        <div class="bottom-nav-inner">
+            <a href="index.html" class="bottom-nav-item active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Home</span>
+            </a>
+            <a href="community.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>Community</span>
+            </a>
+            <a href="resources.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>Resources</span>
+            </a>
+            <a href="therapists.html" class="bottom-nav-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+                <span>Therapists</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ======= BREATHING MODAL ======= -->
+    <div id="breathing-modal" class="modal" role="dialog" aria-modal="true" aria-label="Breathing exercise">
         <div class="modal-content">
-            <button id="close-breathe" class="close-btn">&times;</button>
+            <button id="close-breathe" class="modal-close" aria-label="Close">×</button>
             <h2 id="breathe-text">Ready?</h2>
             <div class="breathe-circle-container">
                 <div class="breathe-circle"></div>
             </div>
-            <p>Follow the circle to find your center.</p>
+            <p>Follow the circle. Breathe with it.</p>
         </div>
     </div>
 
-    <section id="therapists" class="therapists-section">
-        <div class="section-header reveal">
-            <h2>Find your perfect match.</h2>
-            <p>Swipe through certified professionals ready to listen.</p>
-        </div>
-        
-        <div class="therapist-slider" id="therapist-slider">
-            <div class="therapist-card">
-                <div class="t-image t1"></div>
-                <h4>Mrs. Soujanya Yanamandra</h4>
-                <p>Child & Adolescent Mental Health</p>
-                <a href="therapists.html" class="t-action" style="text-decoration: none; display: inline-block;">View Directory</a>
-            </div>
-            <div class="therapist-card">
-                <div class="t-image t2"></div>
-                <h4>Mrs. Srinidhi Veldanda</h4>
-                <p>Emotional Trauma Healing</p>
-                <a href="therapists.html" class="t-action" style="text-decoration: none; display: inline-block;">View Directory</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="features">
-        <div class="section-header reveal">
-            <h2>Everything you need, in one safe space.</h2>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2zm0 6c4.41 0 8 3.59 8 8v4H4v-4c0-4.41 3.59-8 8-8z"/></svg></div>
-                <h3>SoulMi AI Chatbot</h3>
-                <p>Your 24/7 AI buddy who listens and holds you through everything your mind tells you is too much.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div>
-                <h3>Mood Tracker</h3>
-                <p>Track how you feel each day while SoulMi organizes your patterns to help you understand your emotions.</p>
-            </div>
-            <div class="feature-card reveal">
-                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
-                <h3>Communities</h3>
-                <p>Connect with others who understand your journey in a moderated, safe, and supportive environment.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="affirmation-section reveal">
-        <div class="affirmation-card">
-            <h3>Your Daily Affirmation</h3>
-            <p id="affirmation-text">"You are enough just as you are."</p>
-            <button id="new-affirmation" class="btn-primary" style="margin-top: 20px;">Draw Another</button>
-        </div>
-    </section>
-
-    <div class="marquee-section">
-        <div class="marquee-content">
-            <span>"SoulMi helped me sleep again."</span> • 
-            <span>"Finally, a place without judgment."</span> • 
-            <span>"My daily sanctuary."</span> • 
-            <span>"The AI actually understands me."</span> • 
-            <span>"Found my perfect therapist in minutes."</span> • 
-            <span>"SoulMi helped me sleep again."</span> • 
-            <span>"Finally, a place without judgment."</span> • 
-            <span>"My daily sanctuary."</span>
-        </div>
-    </div>
-
-    <section id="register" class="cta-section reveal">
-        <div class="cta-glass-box">
-            <h2>Ready to Begin Your Journey?</h2>
-            <p>Join our community and take the first step towards understanding your emotions.</p>
-            <a href="register.html" class="btn-primary">Register</a>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>SoulMi<span>.</span></h3>
-                <p>Where every soul finds its home.</p>
-            </div>
-            <div class="footer-contact">
-                <h4>Contact</h4>
-                <p>+91 9100907664</p>
-                <p>soulmi.2040@gmail.com</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 SoulMi Sanctuary. All rights reserved.</p>
-        </div>
-    </footer>
-
+    <!-- ======= AI CHAT WIDGET ======= -->
     <div class="chat-widget">
-        <button id="chat-toggle" class="chat-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <button id="chat-toggle" class="chat-btn" aria-label="Open SoulMi AI chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         </button>
-        <div class="chat-window" id="chat-window">
+        <div class="chat-window" id="chat-window" role="dialog" aria-label="SoulMi AI Chat">
             <div class="chat-header">
                 <div class="chat-title">
                     <div class="online-dot"></div> SoulMi AI
                 </div>
-                <button id="close-chat">×</button>
+                <button id="close-chat" aria-label="Close chat">×</button>
             </div>
             <div class="chat-body" id="chat-body">
-                <div class="message ai-msg">Hi there. I'm SoulMi. This is a safe space. How are you feeling right now?</div>
+                <div class="message ai-msg">Hi there. I'm SoulMi. This is a safe space — no judgment, just care. How are you feeling right now?</div>
             </div>
             <div class="chat-input">
-                <input type="text" id="chat-input-field" placeholder="Type a message...">
+                <input type="text" id="chat-input-field" placeholder="Type a message..." aria-label="Chat message">
                 <button id="send-btn">Send</button>
             </div>
         </div>
