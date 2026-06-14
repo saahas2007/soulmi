@@ -179,6 +179,7 @@ const closeChat = document.getElementById('close-chat');
 const sendBtn = document.getElementById('send-btn');
 const chatInput = document.getElementById('chat-input-field');
 const chatBody = document.getElementById('chat-body');
+const chatTooltip = document.querySelector('.chat-tooltip');
 
 // OpenRouter configuration (loaded from gitignored config.js)
 const OPENROUTER_API_KEY = window.SOULMI_CONFIG?.OPENROUTER_API_KEY || '';
@@ -209,8 +210,19 @@ Important rules:
 ];
 
 if (chatToggle && chatWindow) {
-    chatToggle.addEventListener('click', () => chatWindow.classList.toggle('active'));
-    if (closeChat) closeChat.addEventListener('click', () => chatWindow.classList.remove('active'));
+    chatToggle.addEventListener('click', () => {
+        const isActive = chatWindow.classList.toggle('active');
+        if (chatTooltip) {
+            if (isActive) chatTooltip.classList.add('hide');
+            else chatTooltip.classList.remove('hide');
+        }
+    });
+    if (closeChat) {
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('active');
+            if (chatTooltip) chatTooltip.classList.remove('hide');
+        });
+    }
 
     const appendMessage = (text, className) => {
         const msg = document.createElement('div');
