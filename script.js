@@ -248,6 +248,76 @@ if (chatToggle && chatWindow) {
 
         const typingEl = showTyping();
 
+        // Base system prompt defining SoulMi's persona
+        const systemPromptBase = `You are SoulMi AI, a warm, compassionate, and deeply empathetic mental health companion. You are NOT a replacement for professional therapy — you are a supportive friend who listens without judgment.
+
+Your personality:
+- Warm, gentle, and caring — like a trusted friend
+- You validate feelings before offering perspective
+- You use simple, heartfelt language (avoid clinical jargon)
+- You ask thoughtful follow-up questions to understand better
+- You suggest grounding exercises, breathing techniques, or journaling when appropriate
+- You gently recommend professional help when situations seem serious
+- Keep responses concise (2-4 sentences usually) but meaningful
+- Use occasional emojis sparingly (💛, 🌱, 🤗) to feel human
+
+Important rules:
+- Never diagnose conditions or prescribe medication
+- Never minimize someone's feelings
+- If someone mentions self-harm or suicide, immediately provide crisis resources (988 Suicide & Crisis Lifeline, or local emergency services) and encourage them to reach out
+- Always remind users that they are not alone`;
+
+        let currentSystemPrompt = systemPromptBase;
+
+        // Check if user allows sharing mood trends with AI
+        const shareMoodAI = localStorage.getItem("soulmi-share-mood-ai") !== "false";
+        if (shareMoodAI) {
+            const moods = JSON.parse(localStorage.getItem("soulmi-moods") || "[]");
+            const sleeps = JSON.parse(localStorage.getItem("soulmi-sleeps") || "[]");
+            
+            const user = JSON.parse(localStorage.getItem("soulmi-user") || '{"name":"Priya","email":"priya@example.com"}');
+            const userEmail = user?.email || "guest";
+            const userMoods = moods.filter(m => m.user_id === userEmail);
+            const userSleeps = sleeps.filter(s => s.user_id === userEmail);
+            
+            if (userMoods.length > 0 || userSleeps.length > 0) {
+                currentSystemPrompt += `\n\n[USER RECORD DATA]
+The user has opted to share their mood and sleep logs with you. Use this data to help them identify trends, patterns, or reflect on their wellbeing.
+If you refer to their records, draw assumptions about their mood/sleep, or summarize their logs (e.g. connecting a lower sleep score to a more anxious mood log), you MUST explicitly start your explanation or statement with the exact phrase: "Based on the records you stored...".
+Important: Do NOT share or mention journal entries since you do NOT have access to them (for privacy). Keep your focus on asking supportive follow-up questions to help them understand themselves.
+
+Recent Mood Logs (1 = anxious/terrible, 5 = calm/excellent):`;
+                const lastMoods = userMoods.slice(-7);
+                if (lastMoods.length === 0) {
+                    currentSystemPrompt += "\n- No mood logs recorded yet.";
+                } else {
+                    lastMoods.forEach(m => {
+                        const date = new Date(m.timestamp).toLocaleDateString();
+                        currentSystemPrompt += `\n- Date: ${date}, Mood Score: ${m.mood_score}/5 (${m.tags?.join(', ') || 'Neutral'})`;
+                    });
+                }
+
+                currentSystemPrompt += `\n\nRecent Sleep Logs:`;
+                const lastSleeps = userSleeps.slice(-7);
+                if (lastSleeps.length === 0) {
+                    currentSystemPrompt += "\n- No sleep logs recorded yet.";
+                } else {
+                    lastSleeps.forEach(s => {
+                        const date = new Date(s.timestamp).toLocaleDateString();
+                        currentSystemPrompt += `\n- Date: ${date}, Sleep: ${s.hours} hours`;
+                    });
+                }
+            }
+        }
+
+        // Clone context history and dynamically inject latest updated system prompt
+        const messagesToSend = [...conversationHistory];
+        if (messagesToSend.length > 0 && messagesToSend[0].role === 'system') {
+            messagesToSend[0] = { role: 'system', content: currentSystemPrompt };
+        } else {
+            messagesToSend.unshift({ role: 'system', content: currentSystemPrompt });
+        }
+
         try {
             const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
                 method: 'POST',
@@ -259,7 +329,7 @@ if (chatToggle && chatWindow) {
                 },
                 body: JSON.stringify({
                     model: OPENROUTER_MODEL,
-                    messages: conversationHistory.slice(-12), // Keep last 12 messages for context window
+                    messages: messagesToSend.slice(-12), // Keep last 12 messages for context window
                     max_tokens: 300,
                     temperature: 0.8,
                     top_p: 0.9
